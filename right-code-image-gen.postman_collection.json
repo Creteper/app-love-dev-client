@@ -1,0 +1,86 @@
+{
+  "info": {
+    "name": "Right Code - Image Generation",
+    "description": "Right Code 图片生成 API 集合\n\n基础地址：https://www.right.codes/draw\n接口：POST /v1/images/generations",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{api_key}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "生成图片",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/v1/images/generations",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "v1",
+            "images",
+            "generations"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"model\": \"{{model}}\",\n  \"prompt\": \"生成一张边牧与古牧正在抖音直播间直播带货截图\",\n  \"image\": [\"{{image_base64}}\"],\n  \"size\": \"{{size}}\",\n  \"response_format\": \"url\"\n}"
+        },
+        "description": "调用 Right Code 图片生成接口，返回生成图片的直链。\n\n### 传参考图（两种方式）\n\n**方式一（推荐，通用）** — 直接用命令行生成 base64 后粘贴：\n```bash\n# Windows PowerShell\n[Convert]::ToBase64String([IO.File]::ReadAllBytes(\"C:\\path\\to\\image.png\"))\n\n# macOS / Linux\nbase64 -i /path/to/image.png\n```\n把输出的字符串前面加上 `data:image/png;base64,`，粘贴到环境变量 `image_base64` 中即可。\n\n**方式二** — Postman v11+ 桌面端自动读取：\n在环境变量 `image_path` 中填写本地图片的绝对路径，Pre-request Script 会自动转换。\n\n**不需要参考图时**：把 `image_base64` 和 `image_path` 都留空即可。",
+        "event": [
+          {
+            "listen": "prerequest",
+            "script": {
+              "exec": [
+                "const imagePath = pm.environment.get(\"image_path\");",
+                "if (imagePath && imagePath.trim() !== \"\") {",
+                "    if (pm.fs && typeof pm.fs.readFile === \"function\") {",
+                "        const bytes = new Uint8Array(pm.fs.readFile(imagePath));",
+                "        let binary = \"\";",
+                "        for (let i = 0; i < bytes.length; i++) {",
+                "            binary += String.fromCharCode(bytes[i]);",
+                "        }",
+                "        pm.environment.set(\"image_base64\", `data:image/png;base64,${btoa(binary)}`);",
+                "        console.log(`已读取参考图: ${imagePath}`);",
+                "    } else {",
+                "        console.warn(\"pm.fs 不可用，请直接将 base64 填入 image_base64 变量（方法见请求描述）\");",
+                "    }",
+                "}",
+                ""
+              ],
+              "type": "text/javascript"
+            }
+          }
+        ]
+      },
+      "response": [
+        {
+          "name": "成功示例",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"created\": 1777689832,\n  \"data\": [\n    {\n      \"url\": \"https://file4.aitohumanize.com/file/dfa13fe60e7649e88f46037b968b54a3.png\"\n    }\n  ],\n  \"usage\": {\n    \"total_tokens\": 6267,\n    \"input_tokens\": 17,\n    \"output_tokens\": 6250\n  }\n}"
+        }
+      ]
+    }
+  ]
+}
