@@ -34,6 +34,11 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "~/components/ui/tooltip"
+import { RealNameDialog } from "~/components/page-kits/dashboard/real-name-dialog"
+import {
+  RealNameProvider,
+  useRealName,
+} from "~/components/page-kits/dashboard/real-name-context"
 
 function DashboardOutlet({ reserveBottomNav }: { reserveBottomNav: boolean }) {
   const location = useLocation()
@@ -284,19 +289,36 @@ function DashboardChrome() {
   )
 }
 
-export default function DashBoardLayOut() {
+function RealNameDialogHost() {
+  const { dialogOpen, setDialogOpen, markVerified } = useRealName()
   return (
-    <SidebarNavProvider>
-      <SidebarProvider
-        style={
-          {
-            "--sidebar-width": "350px",
-            "--sidebar-width-icon": "5rem",
-          } as React.CSSProperties
-        }
-      >
-        <DashboardChrome />
-      </SidebarProvider>
-    </SidebarNavProvider>
+    <RealNameDialog
+      open={dialogOpen}
+      onOpenChange={setDialogOpen}
+      onSuccess={markVerified}
+    />
+  )
+}
+
+export default function DashBoardLayOut() {
+  // Demo: every fresh entry to the client dashboard re-prompts real-name
+  // authentication. In production this would gate on the server-side
+  // "is_kyc_verified" flag instead.
+  return (
+    <RealNameProvider initiallyPrompt>
+      <SidebarNavProvider>
+        <SidebarProvider
+          style={
+            {
+              "--sidebar-width": "350px",
+              "--sidebar-width-icon": "5rem",
+            } as React.CSSProperties
+          }
+        >
+          <DashboardChrome />
+          <RealNameDialogHost />
+        </SidebarProvider>
+      </SidebarNavProvider>
+    </RealNameProvider>
   )
 }

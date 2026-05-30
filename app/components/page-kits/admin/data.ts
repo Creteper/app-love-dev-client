@@ -58,6 +58,9 @@ export type AdminProject = {
 export type AssignedClient = {
   id: string
   client: string
+  /** Surname-only display name, e.g. "李先生" / "王女士". */
+  contactName: string
+  phone: string
   contactEmail: string
   intent: string
   channel: string
@@ -476,6 +479,8 @@ export const assignedClients: AssignedClient[] = [
   {
     id: "asg-1",
     client: "深圳·智慧仓储",
+    contactName: "李先生",
+    phone: "138-0001-2345",
     contactEmail: "ops@zhihui-warehouse.cn",
     intent: "想做一个仓库扫码盘点的小程序，希望 2 周内试用",
     channel: "AI 入口 · 抖音广告",
@@ -486,6 +491,8 @@ export const assignedClients: AssignedClient[] = [
   {
     id: "asg-2",
     client: "厦门·海风咖啡",
+    contactName: "王女士",
+    phone: "159-2244-8866",
     contactEmail: "boss@haifeng.coffee",
     intent: "10 家门店点单 + 会员系统",
     channel: "AI 入口 · 官方搜索",
@@ -496,6 +503,8 @@ export const assignedClients: AssignedClient[] = [
   {
     id: "asg-3",
     client: "济南·儒慕教育",
+    contactName: "陈先生",
+    phone: "186-7788-9900",
     contactEmail: "li@rumu-edu.com",
     intent: "成人考研课程学习平台 Web + 小程序",
     channel: "AI 入口 · 公众号文章",

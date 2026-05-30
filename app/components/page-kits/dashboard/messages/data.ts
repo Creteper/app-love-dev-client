@@ -84,6 +84,25 @@ export type DeliverableFile = {
   src?: string
 }
 
+export type SpecPhase = {
+  label: string
+  range: string
+  items: string[]
+}
+
+export type SpecPayload = {
+  projectName: string
+  budget: string
+  level: "C" | "B" | "A"
+  estimatedPrice: string
+  estimatedDuration: string
+  requirementsMd: string
+  phasesPrimary: SpecPhase[]
+  phasesSecondary: SpecPhase[]
+}
+
+export type SpecCardVariant = "ai" | "cs"
+
 export type MessageContent =
   | { kind: "text"; text: string }
   | { kind: "image"; src: string; caption?: string }
@@ -92,6 +111,7 @@ export type MessageContent =
   | { kind: "progress-review"; reportDate: string; feedback?: string }
   | { kind: "acceptance-pass"; phase: string; feedback?: string }
   | { kind: "deliverable"; files: DeliverableFile[]; note?: string }
+  | { kind: "spec-card"; spec: SpecPayload; variant: SpecCardVariant }
 
 export const groups: Group[] = [
   {

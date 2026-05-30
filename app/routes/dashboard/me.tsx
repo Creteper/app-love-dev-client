@@ -7,6 +7,7 @@ import {
   Mail,
   Phone,
   Calendar,
+  ShieldAlert,
   ShieldCheck,
 } from "lucide-react"
 import {
@@ -15,6 +16,11 @@ import {
   AvatarImage,
 } from "~/components/ui/avatar"
 import { TopupDialog } from "~/components/page-kits/dashboard/topup"
+import { useRealName } from "~/components/page-kits/dashboard/real-name-context"
+import {
+  maskId,
+  maskName,
+} from "~/components/page-kits/dashboard/real-name-utils"
 
 import type { Route } from "./+types/me";
 import { Button } from "~/components/ui/button"
@@ -70,6 +76,7 @@ function formatCurrency(n: number) {
 
 export default function DashboardMe() {
   const [open, setOpen] = React.useState(false)
+  const { verified, info, openDialog, resetAndPrompt } = useRealName()
 
   return (
     <motion.main
@@ -90,12 +97,27 @@ export default function DashboardMe() {
             <AvatarFallback className="rounded-full text-xl">CN</AvatarFallback>
           </Avatar>
           <div className="flex min-w-0 flex-1 flex-col gap-2">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <h1 className="text-2xl font-semibold tracking-tight">{user.name}</h1>
               <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-medium text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
                 <ShieldCheck className="size-3" />
                 {user.level}
               </span>
+              {verified ? (
+                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-medium text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
+                  <ShieldCheck className="size-3" />
+                  已实名
+                </span>
+              ) : (
+                <button
+                  type="button"
+                  onClick={openDialog}
+                  className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-[11px] font-medium text-amber-700 transition-colors hover:bg-amber-100 dark:bg-amber-500/15 dark:text-amber-300 dark:hover:bg-amber-500/25"
+                >
+                  <ShieldAlert className="size-3" />
+                  未实名 · 立即认证
+                </button>
+              )}
             </div>
             <p className="text-sm text-muted-foreground">{user.email}</p>
             <p className="text-xs text-muted-foreground">
@@ -165,6 +187,46 @@ export default function DashboardMe() {
         <DetailRow icon={<Mail className="size-4" />} label="邮箱" value={user.email} />
         <DetailRow icon={<Phone className="size-4" />} label="手机号" value={user.phone} />
         <DetailRow icon={<Calendar className="size-4" />} label="注册时间" value={user.joinedAt} />
+        <DetailRow
+          icon={
+            verified ? (
+              <ShieldCheck className="size-4" />
+            ) : (
+              <ShieldAlert className="size-4" />
+            )
+          }
+          label="实名认证"
+          value={
+            verified && info ? (
+              <span className="inline-flex flex-wrap items-center justify-end gap-x-2 gap-y-0.5">
+                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
+                  <ShieldCheck className="size-2.5" />
+                  已实名
+                </span>
+                <span className="text-foreground">{maskName(info.name)}</span>
+                <span className="font-mono text-[11px] tabular-nums text-muted-foreground">
+                  {maskId(info.idNumber)}
+                </span>
+                <button
+                  type="button"
+                  onClick={resetAndPrompt}
+                  className="text-[11px] text-muted-foreground underline-offset-2 transition-colors hover:text-foreground hover:underline"
+                >
+                  重新认证
+                </button>
+              </span>
+            ) : (
+              <button
+                type="button"
+                onClick={openDialog}
+                className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-medium text-amber-700 transition-colors hover:bg-amber-100 dark:bg-amber-500/15 dark:text-amber-300 dark:hover:bg-amber-500/25"
+              >
+                <ShieldAlert className="size-3" />
+                未实名 · 立即认证
+              </button>
+            )
+          }
+        />
         <DetailRow
           icon={<ShieldCheck className="size-4" />}
           label="信誉分"

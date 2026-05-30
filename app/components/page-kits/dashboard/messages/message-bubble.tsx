@@ -9,6 +9,7 @@ import {
   Upload,
 } from "lucide-react"
 import { ProgressCard } from "./progress-card"
+import { SpecChatCard } from "./spec-chat-card"
 import {
   tintBg,
   roleBadge,
@@ -217,6 +218,14 @@ export function MessageBubble({
             align={isMe ? "right" : "left"}
             readOnly={readOnly}
             onReview={(date, fb) => onReview?.(date, fb)}
+          />
+        )}
+
+        {msg.content.kind === "spec-card" && (
+          <SpecChatCard
+            spec={msg.content.spec}
+            variant={msg.content.variant}
+            align={isMe ? "right" : "left"}
           />
         )}
 

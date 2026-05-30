@@ -297,6 +297,11 @@ function PendingList({
                 {a.assignedAt}
               </span>
             </div>
+            <div className="flex items-center gap-1 text-[11px] text-muted-foreground">
+              <span className="truncate">{a.contactName}</span>
+              <span className="text-muted-foreground/40">·</span>
+              <span className="shrink-0 tabular-nums">{a.phone}</span>
+            </div>
             <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">
               {a.intent}
             </p>

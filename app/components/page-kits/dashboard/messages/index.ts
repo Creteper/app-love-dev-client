@@ -32,4 +32,7 @@ export {
   type Deliverable,
   type DeliverableFile,
   type DeliverableFileKind,
+  type SpecPayload,
+  type SpecPhase,
+  type SpecCardVariant,
 } from "./data"
