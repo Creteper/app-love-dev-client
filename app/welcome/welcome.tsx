@@ -3,6 +3,7 @@ import gsap from "gsap"
 import LiquidChrome from "~/components/kits/liquid-chrome"
 import { GlassButton } from "~/components/apple-tahoe-liquid-glass-button"
 import { EmojiBurst, type EmojiBurstHandle } from "~/components/kits/emoji-burst"
+import { Link } from "react-router"
 
 export function Welcome() {
   const rootRef = React.useRef<HTMLElement>(null)
@@ -121,13 +122,6 @@ export function Welcome() {
     return () => ctx.revert()
   }, [])
 
-  const handleCtaClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!burstRef.current) return
-    const r = e.currentTarget.getBoundingClientRect()
-    const cx = r.left + r.width / 2
-    const cy = r.top + r.height / 2
-    burstRef.current.cascade(cx, cy, { bursts: 8, spread: 320, count: 36 })
-  }
 
   return (
     <main
@@ -177,7 +171,7 @@ export function Welcome() {
       >
         <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-xs font-medium text-white/90 backdrop-blur-md">
           <span className="inline-flex size-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.9)]" />
-          全新一代 · AI 驱动接单平台
+          全新一代 · AI 驱动定制平台
         </span>
       </div>
 
@@ -204,20 +198,17 @@ export function Welcome() {
         ref={ctaWrapRef}
         className="absolute top-64 w-full justify-center z-30 flex gap-4"
       >
-        <GlassButton
-          ref={ctaBtnRef}
-          onClick={handleCtaClick}
-          className="text-background! backdrop-blur-2xl"
+        <Link
+          to={"/login"}
         >
-          告诉我需求
-        </GlassButton>
-        <GlassButton
-          ref={ctaBtnRef}
-          onClick={handleCtaClick}
-          className="text-background! backdrop-blur-2xl"
-        >
-          成为开发者
-        </GlassButton>
+
+          <GlassButton
+            ref={ctaBtnRef}
+            className="text-background! backdrop-blur-2xl"
+          >
+            告诉我需求
+          </GlassButton>
+        </Link>
       </div>
 
       <div

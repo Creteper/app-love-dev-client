@@ -57,9 +57,6 @@ export function SignupForm({
               </Field>
               <Field>
                 <Button type="submit">注册</Button>
-                <Button variant="outline" type="button" asChild>
-                  <a href="/devlopments/signup">注册为开发者</a>
-                </Button>
               </Field>
               <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
                 其他注册方式

@@ -57,9 +57,6 @@ export function LoginForm({
               </Field>
               <Field>
                 <Button type="submit">登录</Button>
-                <Button variant="outline" type="button" asChild>
-                  <a href="/devlopments/login">登录为开发者</a>
-                </Button>
               </Field>
               <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
                 其他登录方式

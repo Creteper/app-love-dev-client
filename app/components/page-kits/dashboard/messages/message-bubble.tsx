@@ -16,13 +16,30 @@ import {
   type MessageItem,
 } from "./data"
 
-const bubbleVariants = {
-  hidden: { opacity: 0, y: 6 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] as const },
-  },
+const EASE = [0.4, 0, 0.2, 1] as const
+
+// Per-bubble entrance: each motion.div owns initial/animate so a newly added
+// message animates in on its own, without re-animating the whole list.
+
+// Centered system-style cards (system / progress-review / acceptance-pass).
+const centeredEnter = {
+  initial: { opacity: 0, y: 6 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.25, ease: EASE },
+}
+
+// Outbound (own) bubbles slide in from the right.
+const meEnter = {
+  initial: { opacity: 0, x: 32 },
+  animate: { opacity: 1, x: 0 },
+  transition: { duration: 0.3, ease: EASE },
+}
+
+// Inbound (others') bubbles slide in subtly from the left.
+const themEnter = {
+  initial: { opacity: 0, x: -16 },
+  animate: { opacity: 1, x: 0 },
+  transition: { duration: 0.3, ease: EASE },
 }
 
 type Props = {
@@ -59,7 +76,7 @@ export function MessageBubble({
   if (msg.content.kind === "system") {
     return (
       <motion.div
-        variants={bubbleVariants}
+        {...centeredEnter}
         className="flex items-center justify-center py-2"
       >
         <span className="rounded-full bg-muted/60 px-3 py-1 text-[11px] text-muted-foreground">
@@ -73,7 +90,7 @@ export function MessageBubble({
     const { reportDate, feedback } = msg.content
     return (
       <motion.div
-        variants={bubbleVariants}
+        {...centeredEnter}
         className="flex items-center justify-center py-2"
       >
         <div className="flex max-w-md flex-col items-center gap-1.5 rounded-2xl border border-emerald-200/60 bg-emerald-50/70 px-4 py-2.5 text-center dark:border-emerald-500/30 dark:bg-emerald-500/10">
@@ -96,7 +113,7 @@ export function MessageBubble({
     const canUpload = meRole === "dev" && !!onUploadDeliverable
     return (
       <motion.div
-        variants={bubbleVariants}
+        {...centeredEnter}
         className="flex items-center justify-center py-2"
       >
         <div className="flex w-full max-w-md flex-col items-center gap-2 rounded-2xl border border-emerald-200/60 bg-emerald-50/70 px-5 py-4 text-center dark:border-emerald-500/30 dark:bg-emerald-500/10">
@@ -129,10 +146,11 @@ export function MessageBubble({
 
   const isMe = msg.authorRole === meRole
   const badge = roleBadge[msg.authorRole]
+  const enter = isMe ? meEnter : themEnter
 
   return (
     <motion.div
-      variants={bubbleVariants}
+      {...enter}
       className={`flex w-full items-end gap-3 ${isMe ? "flex-row-reverse" : ""}`}
     >
       {msg.authorAvatar ? (

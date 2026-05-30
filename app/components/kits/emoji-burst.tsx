@@ -50,8 +50,8 @@ export const EmojiBurst = React.forwardRef<EmojiBurstHandle, Props>(
   function EmojiBurst(
     {
       emojis = DEFAULT_EMOJIS,
-      particles = 40,
-      lifespan = 1800,
+      particles = 18,
+      lifespan = 1400,
       gravity = 0.18,
       className,
     },
@@ -179,9 +179,9 @@ export const EmojiBurst = React.forwardRef<EmojiBurstHandle, Props>(
       () => ({
         burst: (x, y, count) => spawn(x, y, count ?? particles),
         cascade: (x, y, options) => {
-          const bursts = options?.bursts ?? 5
-          const spread = options?.spread ?? 220
-          const count = options?.count ?? Math.floor(particles * 0.6)
+          const bursts = options?.bursts ?? 3
+          const spread = options?.spread ?? 180
+          const count = options?.count ?? Math.floor(particles * 0.5)
           for (let i = 0; i < bursts; i++) {
             const delay = i * 140
             const dx = (Math.random() - 0.5) * spread

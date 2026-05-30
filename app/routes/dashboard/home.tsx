@@ -185,7 +185,7 @@ export default function DashBoardHome() {
         <StatCard
           icon={<TrendingUp className="size-4" />}
           tint="emerald"
-          label="未结余额"
+          label="冻结余额"
           value={`¥${formatCurrency(balance.unsettled)}`}
           hint="项目验收后自动结算"
         />

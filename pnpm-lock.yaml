@@ -50,6 +50,9 @@ importers:
       mathjs:
         specifier: ^15.2.0
         version: 15.2.0
+      misans:
+        specifier: ^4.1.0
+        version: 4.1.0
       motion:
         specifier: ^12.40.0
         version: 12.40.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -105,18 +108,6 @@ importers:
       vite:
         specifier: ^8.0.3
         version: 8.0.14(@types/node@22.19.19)(esbuild@0.27.7)(jiti@2.7.0)
-
-  build-release:
-    dependencies:
-      '@react-router/express':
-        specifier: ^7.15.1
-        version: 7.15.1(express@5.2.1)(react-router@7.15.1(react@19.2.6))
-      cross-env:
-        specifier: ^10.1.0
-        version: 10.1.0
-      express:
-        specifier: ^5.2.1
-        version: 5.2.1
 
 packages:
 
@@ -2695,6 +2686,9 @@ packages:
   minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
 
+  misans@4.1.0:
+    resolution: {integrity: sha512-CcIRrIVhnt+OpGXvw1Q8llGBVAy5P2mdov/kJ0gGa81sJ0RY7mZp2fNAt2ySTCeZos+wo7ZnzDZxl1In//7FdA==}
+
   motion-dom@12.40.0:
     resolution: {integrity: sha512-HxU3ZaBwNPVQUBQf1xxgq+7JrPNZvjLVxgbpEZL7RrWJnsxOf0/OM+yrHG9ogLQ31Do/r57Oz2gQWPK+6q62mg==}
 
@@ -4751,23 +4745,12 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.3
 
-  '@react-router/express@7.15.1(express@5.2.1)(react-router@7.15.1(react@19.2.6))':
-    dependencies:
-      '@react-router/node': 7.15.1(react-router@7.15.1(react@19.2.6))
-      express: 5.2.1
-      react-router: 7.15.1(react@19.2.6)
-
   '@react-router/node@7.15.1(react-router@7.15.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@5.9.3)':
     dependencies:
       '@mjackson/node-fetch-server': 0.2.0
       react-router: 7.15.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
     optionalDependencies:
       typescript: 5.9.3
-
-  '@react-router/node@7.15.1(react-router@7.15.1(react@19.2.6))':
-    dependencies:
-      '@mjackson/node-fetch-server': 0.2.0
-      react-router: 7.15.1(react@19.2.6)
 
   '@reduxjs/toolkit@2.12.0(react-redux@9.3.0(@types/react@19.2.15)(react@19.2.6)(redux@5.0.1))(react@19.2.6)':
     dependencies:
@@ -5873,6 +5856,8 @@ snapshots:
 
   minimist@1.2.8: {}
 
+  misans@4.1.0: {}
+
   motion-dom@12.40.0:
     dependencies:
       motion-utils: 12.39.0
@@ -6182,12 +6167,6 @@ snapshots:
       set-cookie-parser: 2.6.0
     optionalDependencies:
       react-dom: 19.2.6(react@19.2.6)
-
-  react-router@7.15.1(react@19.2.6):
-    dependencies:
-      cookie: 1.1.1
-      react: 19.2.6
-      set-cookie-parser: 2.6.0
 
   react-style-singleton@2.2.3(@types/react@19.2.15)(react@19.2.6):
     dependencies:

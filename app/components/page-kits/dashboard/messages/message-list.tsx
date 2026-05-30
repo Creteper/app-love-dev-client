@@ -1,14 +1,6 @@
 import * as React from "react"
-import { motion } from "motion/react"
 import { MessageBubble } from "./message-bubble"
 import type { MessageItem } from "./data"
-
-const listVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.04, delayChildren: 0.08 },
-  },
-}
 
 type Props = {
   messages: MessageItem[]
@@ -36,13 +28,7 @@ export function MessageList({
 
   return (
     <div className="flex-1 overflow-y-auto">
-      <motion.div
-        key={messages.length}
-        variants={listVariants}
-        initial="hidden"
-        animate="visible"
-        className="mx-auto flex w-full max-w-3xl flex-col gap-4 px-6 py-6"
-      >
+      <div className="mx-auto flex w-full max-w-3xl flex-col gap-4 px-6 py-6">
         {messages.map((m, i) => {
           const prev = messages[i - 1]
           const showDate = m.date && (!prev || prev.date !== m.date)
@@ -66,7 +52,7 @@ export function MessageList({
           )
         })}
         <div ref={endRef} />
-      </motion.div>
+      </div>
     </div>
   )
 }
